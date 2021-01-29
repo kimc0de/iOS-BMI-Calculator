@@ -10,12 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var bmiValue = "0.0"
     @IBOutlet weak var weightSlider: UISlider!
     @IBOutlet weak var heightSlider: UISlider!
     @IBOutlet weak var heightLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         heightSlider.value = 1.5
@@ -36,7 +38,20 @@ class ViewController: UIViewController {
         let height = heightSlider.value
         let weight = weightSlider.value
         let BMI = weight/pow(height, 2)
-        print(BMI)
+        bmiValue = String(format: "%.1f", BMI)
+        
+        self.performSegue(withIdentifier: "goToResult", sender: self)
+        
+    }
+//    @IBAction func back(_ segue: UIStoryboardSegue){
+//        
+//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToResult"{
+            let destinationVC = segue.destination as! ResultViewController //cast to specify the data type of the destination segue
+            destinationVC.bmiValue = self.bmiValue
+        }
+      
     }
 }
 
